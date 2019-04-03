@@ -1,38 +1,36 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person.js';
 
-class App extends Component {
-  // it is a reserved word
-  state = {
+const app = props => {
+  // Difference: setPersonsState does not merge with the the prievious state, but it overrides it.
+  // you can use useState multiple times for different properties
+  const [personsState, setPersonsState ] = useState({
     persons: [
       { name: 'Emily', age: 30 },
       { name: 'Matteo', age: 29 },
     ]
-  } // managed from inside a component
+  });
 
-  switchNameHandler = () => {
+  const switchNameHandler = () => {
     // DO NOT mutate state directly
     // this.state.persons[0].name = 'Emilia';
     // this will allow React to understand it should update the dom
-    this.setState({
+    setPersonsState({
       persons: [
         { name: 'Emilia', age: 20 },
         { name: 'Matto', age: 35 },
       ]
     });
   }
-
-  render() {
     return (
       <div className="App">
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>my hobbies: trial</Person>
+        <Person name={personsState.persons[0].name} age={personsState.persons[0].age} />
+        <Person name={personsState.persons[1].name} age={personsState.persons[1].age}>my hobbies: trial</Person>
         {/* onClick needs to be uppercase */}
-        <button onClick={this.switchNameHandler}>Switch Name</button>
+        <button onClick={switchNameHandler}>Switch Name</button>
       </div>
     );
-  }
-}
+  } 
 
-export default App;
+export default app;
