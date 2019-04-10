@@ -12,20 +12,30 @@ const app = props => {
     ]
   });
 
-  const switchNameHandler = () => {
+  const switchNameHandler = (newName) => {
     // DO NOT mutate state directly
     // this.state.persons[0].name = 'Emilia';
     // this will allow React to understand it should update the dom
     setPersonsState({
       persons: [
-        { name: 'Emilia', age: 20 },
+        { name: newName, age: 20 },
         { name: 'Matto', age: 35 },
       ]
     });
   }
+
+  const nameChangedHandler = (event) => {
+    setPersonsState({
+      persons: [
+        { name: event.target.value, age: 10 },
+        { name: 'Mattea', age: 40 },
+      ]
+    });
+  }
+
     return (
       <div className="App">
-        <Person name={personsState.persons[0].name} age={personsState.persons[0].age} />
+        <Person changed={nameChangedHandler} name={personsState.persons[0].name} age={personsState.persons[0].age} />
         <Person name={personsState.persons[1].name} age={personsState.persons[1].age}>my hobbies: trial</Person>
         {/* onClick needs to be uppercase */}
         <button onClick={switchNameHandler}>Switch Name</button>
