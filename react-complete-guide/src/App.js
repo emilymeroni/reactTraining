@@ -1,46 +1,76 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person.js';
 
-const app = props => {
-  // Difference: setPersonsState does not merge with the the prievious state, but it overrides it.
-  // you can use useState multiple times for different properties
-  const [personsState, setPersonsState ] = useState({
+class App extends Component {
+  // it is a reserved word
+  state = {
     persons: [
-      { name: 'Emily', age: 30 },
-      { name: 'Matteo', age: 29 },
-    ]
-  });
+      { id: 'id1', name: 'Emily', age: 30 },
+      { id: 'id2', name: 'Matteo', age: 29 },
+      { id: 'id3', name: 'Ruska', age: 0.6 }
+    ],
+    showPersons: true
+  } // managed from inside a component
+  
+  deletePersonHandler = (index) => {
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    persons.splice(index, 1);
+    this.setState({persons: persons});
+  }
 
-  const switchNameHandler = (newName) => {
-    // DO NOT mutate state directly
-    // this.state.persons[0].name = 'Emilia';
-    // this will allow React to understand it should update the dom
-    setPersonsState({
-      persons: [
-        { name: newName, age: 20 },
-        { name: 'Matto', age: 35 },
-      ]
+  togglePersonsHandler = () => {
+    this.setState({
+      showPersons: !this.state.showPersons
+    })
+  }
+
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({
+      persons: persons
     });
   }
 
-  const nameChangedHandler = (event) => {
-    setPersonsState({
-      persons: [
-        { name: event.target.value, age: 10 },
-        { name: 'Mattea', age: 40 },
-      ]
-    });
-  }
+  render() {
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => {
+            return <Person 
+              click={() => this.deletePersonHandler(index)}
+              name={person.name} 
+              age={person.age}
+              key={person.id}
+              changed={(event) => this.nameChangedHandler(event, person.id)}/>
+          })}
+        </div>
+      );
+    }
 
     return (
       <div className="App">
-        <Person changed={nameChangedHandler} name={personsState.persons[0].name} age={personsState.persons[0].age} />
-        <Person name={personsState.persons[1].name} age={personsState.persons[1].age}>my hobbies: trial</Person>
         {/* onClick needs to be uppercase */}
-        <button onClick={switchNameHandler}>Switch Name</button>
+        <button onClick={this.togglePersonsHandler}>Show/hide persons</button>
+        {persons}
       </div>
     );
-  } 
+  }
+}
 
-export default app;
+export default App;
