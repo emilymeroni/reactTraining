@@ -35,7 +35,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <input onChange={(event) => this.inputChangeHandler(event)} />
+        <input value={this.state.text.join('')} onChange={(event) => this.inputChangeHandler(event)} />
         <ValidationComponent text={this.state.text} />
         <p>The length of the text is: {this.state.text.length}</p>
         {charBoxes}
