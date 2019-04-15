@@ -1,9 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import classes from './App.module.css';
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit';
+import withClass from '../hoc/withClass';
 
 class App extends Component {
+  state = {
+    persons: [
+      { id: 'id1', name: 'Emily', age: 30 },
+      { id: 'id2', name: 'Matteo', age: 29 },
+      { id: 'id3', name: 'Ruska', age: 0.6 }
+    ],
+    showPersons: true,
+    showCockpit: true,
+    counter: 0
+  } // managed from inside a component
+
   constructor(props) {
     super(props);
     console.log('[App.js] constructor');
@@ -30,16 +42,6 @@ class App extends Component {
   componentDidUpdate() {
     console.log('[App.js] componentDidUpdate');
   }
-
-  state = {
-    persons: [
-      { id: 'id1', name: 'Emily', age: 30 },
-      { id: 'id2', name: 'Matteo', age: 29 },
-      { id: 'id3', name: 'Ruska', age: 0.6 }
-    ],
-    showPersons: true,
-    showCockpit: true
-  } // managed from inside a component
 
   deletePersonHandler = (index) => {
     // const persons = this.state.persons.slice();
@@ -68,8 +70,17 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({
-      persons: persons
+    /* this.setState({
+      persons: persons,
+      counter: this.state.counter + 1 //it could be an older state, it is not guaranteed to execute and finish immediately
+    }); */
+
+    // When you need to update a state that depends on the old state, you use the prevState
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        counter: prevState.counter + 1
+      }
     });
   }
 
@@ -87,7 +98,7 @@ class App extends Component {
     }
 
     return (
-      <div className={classes.App}>
+      <Fragment>
         <button onClick={() => this.setState({
           showCockpit: !this.state.showCockpit
         })}>Remove cockpit</button>
@@ -98,9 +109,9 @@ class App extends Component {
             clicked={this.togglePersonsHandler}
           />) : null}
         {persons}
-      </div>
+      </Fragment>
     );
   }
 }
 
-export default App;
+export default withClass(App, classes.App);

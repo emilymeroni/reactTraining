@@ -51,3 +51,8 @@ It doesn't immediately render it to the DOM. It is a suggestion of what the HTML
 It compares Virtual domes: Old and re-rendered (or future) virtual DOM
 React keeps two copies of the DOM and compares them to see if there are any differences. At that
 point it changes the dom only where the changes occured (like the text of the button)
+
+High order component
+- It wraps another component.
+- There are two ways to create it, you don't return a functional component but instead you pass
+in a reference to a component. To use it you need to wrap it in the export of the class using it.
