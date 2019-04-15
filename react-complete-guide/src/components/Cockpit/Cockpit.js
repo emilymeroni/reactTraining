@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import classes from './Cockpit.module.css';
 
 const cockpit = (props) => {
+
+  const toggleBtnRef = useRef(null);
+  // toggleBtnRef.current.click(); cannot call it here, because the JSX is not yet rendered
 
   useEffect(() => {
     console.log('[Cockpit.js] useEffect');
     // Http request...
     const timer = setTimeout(() => {
     }, 500);
+    toggleBtnRef.current.click(); // here the JSX was already parsed
     return () => {
       // called when it is unmounted
       clearTimeout(timer);
@@ -29,7 +33,7 @@ const cockpit = (props) => {
       <div className={classes.Cockpit}>
       <h1>{props.title}</h1>
         {/* onClick needs to be uppercase */}
-        <button onClick={props.clicked}>Show/hide persons</button>
+        <button ref={toggleBtnRef} onClick={props.clicked}>Show/hide persons</button>
       </div>
     </div>
   )

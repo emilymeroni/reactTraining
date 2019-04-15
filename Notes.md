@@ -56,3 +56,6 @@ High order component
 - It wraps another component.
 - There are two ways to create it, you don't return a functional component but instead you pass
 in a reference to a component. To use it you need to wrap it in the export of the class using it.
+
+Refs
+ref is a special property to reference an element. For functional components you can use useRef() hook
