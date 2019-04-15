@@ -4,7 +4,24 @@ import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
-  // it is a reserved word
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+    // the state could also be set in here
+    // this.state = {}
+  }
+
+  // not used to often..
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps');
+    console.log(props);
+    return state;
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
+
   state = {
     persons: [
       { id: 'id1', name: 'Emily', age: 30 },
@@ -47,6 +64,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js] render');
     let persons = null;
 
     if (this.state.showPersons) {
@@ -60,7 +78,10 @@ class App extends Component {
 
     return (
       <div className={classes.App}>
-        <Cockpit clicked={this.togglePersonsHandler} />
+        <Cockpit 
+        title={this.props.title}
+        clicked={this.togglePersonsHandler} 
+        />
           {persons}
       </div>
     );
