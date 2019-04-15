@@ -22,13 +22,23 @@ class App extends Component {
     console.log('[App.js] componentDidMount');
   }
 
+  shouldComponentUpdate() {
+    console.log('[App.js] shouldComponentUpdate');
+    return true;
+  }
+
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate');
+  }
+
   state = {
     persons: [
       { id: 'id1', name: 'Emily', age: 30 },
       { id: 'id2', name: 'Matteo', age: 29 },
       { id: 'id3', name: 'Ruska', age: 0.6 }
     ],
-    showPersons: true
+    showPersons: true,
+    showCockpit: true
   } // managed from inside a component
 
   deletePersonHandler = (index) => {
@@ -78,11 +88,16 @@ class App extends Component {
 
     return (
       <div className={classes.App}>
-        <Cockpit 
-        title={this.props.title}
-        clicked={this.togglePersonsHandler} 
-        />
-          {persons}
+        <button onClick={() => this.setState({
+          showCockpit: !this.state.showCockpit
+        })}>Remove cockpit</button>
+        {this.state.showCockpit ? (
+          <Cockpit
+            persons={persons}
+            title={this.props.title}
+            clicked={this.togglePersonsHandler}
+          />) : null}
+        {persons}
       </div>
     );
   }
