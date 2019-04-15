@@ -1,10 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import classes from './Cockpit.module.css';
+import AuthContext from '../../context/auth-context';
 
 const cockpit = (props) => {
 
   const toggleBtnRef = useRef(null);
   // toggleBtnRef.current.click(); cannot call it here, because the JSX is not yet rendered
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     console.log('[Cockpit.js] useEffect');
@@ -34,6 +36,7 @@ const cockpit = (props) => {
       <h1>{props.title}</h1>
         {/* onClick needs to be uppercase */}
         <button ref={toggleBtnRef} onClick={props.clicked}>Show/hide persons</button>
+          <button onClick={authContext.login}>Log in</button>
       </div>
     </div>
   )

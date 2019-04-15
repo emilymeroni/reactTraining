@@ -3,6 +3,7 @@ import classes from './App.module.css';
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit';
 import withClass from '../hoc/withClass';
+import AuthContext from '../context/auth-context';
 
 class App extends Component {
   state = {
@@ -11,9 +12,10 @@ class App extends Component {
       { id: 'id2', name: 'Matteo', age: 29 },
       { id: 'id3', name: 'Ruska', age: 0.6 }
     ],
-    showPersons: true,
+    showPersons: false,
     showCockpit: true,
-    counter: 0
+    counter: 0,
+    authenticated: false
   } // managed from inside a component
 
   constructor(props) {
@@ -56,6 +58,12 @@ class App extends Component {
     })
   }
 
+  loginHandler = () => {
+    this.setState({
+      authenticated: true
+    })
+  }
+
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
       return p.id === id;
@@ -94,21 +102,27 @@ class App extends Component {
           persons={this.state.persons}
           clicked={this.deletePersonHandler}
           changed={this.nameChangedHandler}
+          isAuthenticated={this.state.isAuthenticated}
         />
     }
 
     return (
       <Fragment>
-        <button onClick={() => this.setState({
-          showCockpit: !this.state.showCockpit
-        })}>Remove cockpit</button>
-        {this.state.showCockpit ? (
-          <Cockpit
-            persons={persons}
-            title={this.props.title}
-            clicked={this.togglePersonsHandler}
-          />) : null}
-        {persons}
+        <AuthContext.Provider value={{
+         authenticated: this.state.isAuthenticated,
+         login: this.loginHandler
+        }}>
+          <button onClick={() => this.setState({
+            showCockpit: !this.state.showCockpit
+          })}>Remove cockpit</button>
+          {this.state.showCockpit ? (
+            <Cockpit
+              persons={persons}
+              title={this.props.title}
+              clicked={this.togglePersonsHandler}
+            />) : null}
+          {persons}
+        </AuthContext.Provider>
       </Fragment>
     );
   }

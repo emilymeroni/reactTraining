@@ -59,3 +59,6 @@ in a reference to a component. To use it you need to wrap it in the export of th
 
 Refs
 ref is a special property to reference an element. For functional components you can use useRef() hook
+
+Context API
+when you don't want to pass into multiple layers the properties for a component
