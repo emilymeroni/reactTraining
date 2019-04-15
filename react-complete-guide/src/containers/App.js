@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.module.css';
-import Person from './Person/Person.js';
+import Persons from '../components/Persons/Persons'
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
   // it is a reserved word
@@ -12,12 +13,12 @@ class App extends Component {
     ],
     showPersons: true
   } // managed from inside a component
-  
+
   deletePersonHandler = (index) => {
     // const persons = this.state.persons.slice();
     const persons = [...this.state.persons];
     persons.splice(index, 1);
-    this.setState({persons: persons});
+    this.setState({ persons: persons });
   }
 
   togglePersonsHandler = () => {
@@ -49,25 +50,18 @@ class App extends Component {
     let persons = null;
 
     if (this.state.showPersons) {
-      persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return <Person 
-              click={() => this.deletePersonHandler(index)}
-              name={person.name} 
-              age={person.age}
-              key={person.id}
-              changed={(event) => this.nameChangedHandler(event, person.id)}/>
-          })}
-        </div>
-      );
+      persons =
+        <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler}
+        />
     }
 
     return (
       <div className={classes.App}>
-        {/* onClick needs to be uppercase */}
-        <button onClick={this.togglePersonsHandler}>Show/hide persons</button>
-        {persons}
+        <Cockpit clicked={this.togglePersonsHandler} />
+          {persons}
       </div>
     );
   }
