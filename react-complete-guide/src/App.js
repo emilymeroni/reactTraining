@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.module.css';
 import Person from './Person/Person.js';
 
 class App extends Component {
@@ -46,15 +46,6 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
-
     let persons = null;
 
     if (this.state.showPersons) {
@@ -73,9 +64,9 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
+      <div className={classes.App}>
         {/* onClick needs to be uppercase */}
-        <button style={style} onClick={this.togglePersonsHandler}>Show/hide persons</button>
+        <button onClick={this.togglePersonsHandler}>Show/hide persons</button>
         {persons}
       </div>
     );
