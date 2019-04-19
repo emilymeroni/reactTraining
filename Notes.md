@@ -67,3 +67,11 @@ when you don't want to pass into multiple layers the properties for a component
 The Server is a Rest API that sends back JSON Data
 
 Axios: Promise based 
+
+#### Interceptors
+
+Allows you to manipulate a response and add some common headers. It accesses axios globally.
+You always need to return the request otherwise it blocks it.
+First argument: request configuration changing function
+Second argument: function that handles any error;
+Interceptors can be used both for requests and responses.
