@@ -63,15 +63,22 @@ ref is a special property to reference an element. For functional components you
 ## Context API
 when you don't want to pass into multiple layers the properties for a component
 
-## HTTP Request in React
+## HTTP Request in React with Axios
 The Server is a Rest API that sends back JSON Data
 
 Axios: Promise based 
 
-#### Interceptors
+### Interceptors
 
 Allows you to manipulate a response and add some common headers. It accesses axios globally.
 You always need to return the request otherwise it blocks it.
 First argument: request configuration changing function
 Second argument: function that handles any error;
 Interceptors can be used both for requests and responses.
+
+### Defaults
+When the request is always the same, you can change the baseURL of the defaults property in axios.
+If you want to use for example the baseURL only for certain parts of the project you can use instances.
+
+### Instances
+You create an instance of axios and use it only where needed to give you flexibility and control in detail in which part of your app you want to use default settings and where not.
