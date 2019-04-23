@@ -6,7 +6,6 @@ As less as possible. Only a few selected components should have state.
 ## Class base lifecycle
 
 ### Creation 
-
 Creation is only available in Class-based Components!
 
 NB: Lifecycle Hooks !== React Hooks
@@ -26,7 +25,6 @@ will call the render method on all the children
 you can cause side effects (for example an HTTP request). Don't udpate the state synchronously!
 
 ### Update
-
 - getDerivedStateFromPops(props, state)
 Sync local state, don't cause side effects!
 
@@ -69,7 +67,6 @@ The Server is a Rest API that sends back JSON Data
 Axios: Promise based 
 
 ### Interceptors
-
 Allows you to manipulate a response and add some common headers. It accesses axios globally.
 You always need to return the request otherwise it blocks it.
 First argument: request configuration changing function
@@ -82,3 +79,38 @@ If you want to use for example the baseURL only for certain parts of the project
 
 ### Instances
 You create an instance of axios and use it only where needed to give you flexibility and control in detail in which part of your app you want to use default settings and where not.
+
+## Routing
+Be able to show different pages to the user in single page applications, that only has a single HTML file. We use JS to render different pages for different paths.
+Routing parses the path and shows the appropriate code.
+
+The de-facto standard package is react-router with react-router-dom
+What it does is
+- Parses the URL / Path that will be configured differently by the developer
+- Reads the configuration
+- Renders the appropriate Component by loading the different code
+
+You can use the Route component in your code with the following attributes:
+- path: The path for which the content can be seen, the criteria to be met
+- exact: if the specified path is the exact path
+- render: some jsx code to render content for that path
+- component: function or class you want to use
+Routes are parsed from top to bottom. It shows all routes that match.
+
+To not reload the whole site you can use the Link component that has the to attribute. For a more enhanced Link use the NavLink instead (for example to have an "active" css class on it or aria tags).
+
+Note: The routing props are not passed down to the components tree.
+There is a HOC called withRouter which we use by wrapping the export to get access to these properties.
+
+The way you write links doesn't affect absolute or relative paths, links will always be absolute and will always be appended right after your domain.
+If you want to turn it into a relative path you need to build the path dynamically. You can use the this.props.match.url to take the path you are currently on.
+
+"/:id" is replaced dynamically with a property, it tells the router it is a route parameter. You need to rap the component with a Link. 
+To pass the route parameter we have the params under the props match parameters.
+
+You can tell React Router to only load one route, the Switch component which is the first one you find.
+You can also mix and only include routes that needed to be exclusive.
+
+Nested routes: load a Component inside another component loaded via route. 
+The Route component can be used anywhere you like as long as you have the BrowserRouter wrapping it up in the tree.
+Note: The router uses old components, it does not update based on a new parameter. Use componentDidUpdate
