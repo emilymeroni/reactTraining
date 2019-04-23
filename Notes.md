@@ -114,3 +114,7 @@ You can also mix and only include routes that needed to be exclusive.
 Nested routes: load a Component inside another component loaded via route. 
 The Route component can be used anywhere you like as long as you have the BrowserRouter wrapping it up in the tree.
 Note: The router uses old components, it does not update based on a new parameter. Use componentDidUpdate
+
+### Redirecting
+You can use a special component, Redirect, where you specify the path and where it should bring to.
+Redirect can also be used conditionally.
