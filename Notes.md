@@ -118,3 +118,10 @@ Note: The router uses old components, it does not update based on a new paramete
 ### Redirecting
 You can use a special component, Redirect, where you specify the path and where it should bring to.
 Redirect can also be used conditionally.
+
+### Navigation guards
+Needed for example when you don't know if the user is authenticated or not.
+
+### Lazy loading
+Depends on the webpack configuration, needs to be modern.
+Since 16.6 we have React Suspense to do lazy loading. It can be used also outside of a Router scenario.
