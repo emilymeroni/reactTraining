@@ -125,3 +125,12 @@ Needed for example when you don't know if the user is authenticated or not.
 ### Lazy loading
 Depends on the webpack configuration, needs to be modern.
 Since 16.6 we have React Suspense to do lazy loading. It can be used also outside of a Router scenario.
+
+## Redux
+A global store for state.
+Each Redux application has a Central Store that contains all of the application state (it is a giant JavaScript object).
+Actions are dispatched from react components and can contain a payload, you send out information to the Central store.
+An Action then reaches Recuders that check the type of the action. It is a pure function that recieves the old state and the action and returns
+the new state. Reducers need to be synchronous. Reducers updated the Central Store.
+There is a Subscription module when the state changes, react components can register to the subscription.
+NEVER MUTATE ANY DATA!
