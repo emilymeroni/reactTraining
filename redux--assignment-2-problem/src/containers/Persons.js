@@ -6,10 +6,6 @@ import AddPerson from '../components/AddPerson/AddPerson';
 import * as personActionTypes from '../store/personActions';
 
 class Persons extends Component {
-    state = {
-        persons: []
-    }
-
     render () {
         return (
             <div>
