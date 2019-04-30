@@ -2,36 +2,36 @@ const redux = require('redux');
 const createStore = redux.createStore;
 
 const initialState = {
-  counter: 0
-};
+    counter: 0
+}
 
 // Reducer
-const rootReducer = (currentState = initialState, action) => {
-  if(action.type === 'INC_COUNTER') {
-    return {
-      ...currentState,
-      counter: currentState.counter + 1
+const rootReducer = (state = initialState, action) => {
+    if (action.type === 'INC_COUNTER') {
+        return {
+            ...state,
+            counter: state.counter + 1
+        };
     }
-  }
-  if(action.type === 'ADD_COUNTER') {
-    return {
-      ...currentState,
-      counter: currentState.counter + 10
+    if (action.type === 'ADD_COUNTER') {
+        return {
+            ...state,
+            counter: state.counter + action.value
+        };
     }
-  }
-  return currentState;
+    return state;
 };
 
 // Store
 const store = createStore(rootReducer);
+console.log(store.getState());
 
 // Subscription
-// Informs me if something has changed
 store.subscribe(() => {
-  console.log('[Subscription]', store.getState()); // executed when an action is dispatched
+    console.log('[Subscription]', store.getState());
 });
 
 // Dispatching Action
-// type is the one property than needs to be used like this
-store.dispatch({type: 'INC_COUNTER'}); // all uppercase is the convention
-store.dispatch({type: 'ADD_COUNTER', value: 10}); 
+store.dispatch({type: 'INC_COUNTER'});
+store.dispatch({type: 'ADD_COUNTER', value: 10});
+console.log(store.getState());
