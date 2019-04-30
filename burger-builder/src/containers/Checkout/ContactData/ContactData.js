@@ -7,6 +7,8 @@ import classes from './ContactData.module.css';
 
 import axios from '../../../axios-orders';
 
+import { connect } from 'react-redux';
+
 class ContactData extends Component {
   state = {
     orderForm: {
@@ -117,7 +119,7 @@ class ContactData extends Component {
     }
 
     const order = {
-      ingredients: this.props.ingredients,
+      ingredients: this.props.ingr,
       price: this.props.price,
       orderData: formData
     }
@@ -158,7 +160,7 @@ class ContactData extends Component {
     }
 
     for (let index = 0; index < elementsValidity.length; index++) {
-      if(elementsValidity[index] === false) {
+      if (elementsValidity[index] === false) {
         return false;
       };
     }
@@ -202,4 +204,11 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+  return {
+    ingr: state.ingredients,
+    price: state.totalPrice
+  }
+}
+
+export default connect(mapStateToProps)(ContactData);
