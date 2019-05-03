@@ -9,8 +9,11 @@ export const saveCounter = (result) => {
 
 // only possible due to redux hunk
 export const storeCounter = (result) => {
-  return dispatch => {
+  return (dispatch, getState) => {
     setTimeout(() => {
+      // Not recommended, better to pass arguments to the function
+      // const oldCounter = getState().ctr.counter;
+      // console.log(oldCounter);
       dispatch(saveCounter(result));
     }, 2000);
   }

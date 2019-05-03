@@ -137,6 +137,7 @@ NEVER MUTATE ANY DATA!
 To not make a huge reducer you can split it up by feature (in the end,
 redux can only manage one reducer).
 
+### Middleware
 We can add Middleware between Actions and Reducers and connect it to the store.
 They are useful to execute async code.
 
@@ -148,4 +149,7 @@ Some examples:
 - Client State (is user authenticated, filters set by the user): yup, its central storage is perfect for this case
 
 ### Action creators
-Useful for async code
+Useful for async code.
+
+### Reducers
+They are pure, input in input out. They are a core redux comncept to update the State. Better to put the data transforming logic as opposite to action creators.

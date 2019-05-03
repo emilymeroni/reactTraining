@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionsTypes';
+import { updateObject } from '../utility';
 
 const initialState = {
     counter: 0
@@ -6,28 +7,16 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     if (action.type === actionTypes.INCREMENT) {
-        return {
-            ...state,
-            counter: state.counter + 1
-        }
+        return updateObject (state, {counter: state.counter + 1});
     }
     else if (action.type === actionTypes.DECREMENT) {
-        return {
-            ...state,
-            counter: state.counter - 1
-        }
+        return updateObject (state, {counter: state.counter - 1});
     }
     else if (action.type === actionTypes.ADD) {
-        return {
-            ...state,
-            counter: state.counter + action.value
-        }
+        return updateObject (state, {counter: state.counter + action.value});
     }
     else if (action.type === actionTypes.SUBTRACT) {
-        return {
-            ...state,
-            counter: state.counter - action.value
-        }
+        return updateObject (state, {counter: state.counter - action.value});
     }
     return state;
 };
