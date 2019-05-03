@@ -7,4 +7,4 @@ export {
 export {
   storeCounter,
   removeCounter
-} from './result';
+} from './results';
