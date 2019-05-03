@@ -130,12 +130,15 @@ Since 16.6 we have React Suspense to do lazy loading. It can be used also outsid
 A global store for state.
 Each Redux application has a Central Store that contains all of the application state (it is a giant JavaScript object).
 Actions are dispatched from react components and can contain a payload, you send out information to the Central store.
-An Action then reaches Recuders that check the type of the action. It is a pure function that recieves the old state and the action and returns
+An Action then reaches Reducers that check the type of the action. It is a pure function that recieves the old state and the action and returns
 the new state. Reducers need to be synchronous. Reducers updated the Central Store.
 There is a Subscription module when the state changes, react components can register to the subscription.
 NEVER MUTATE ANY DATA!
 To not make a huge reducer you can split it up by feature (in the end,
 redux can only manage one reducer).
+
+We can add Middleware between Actions and Reducers and connect it to the store.
+They are useful to execute async code.
 
 ### When sould we use Redux / action dispatching ?
 Depends on the size of the application and the complexity of the state.
@@ -143,3 +146,6 @@ Some examples:
 - Local UI state (show/hide backdrop): mostly handled within components
 - Persistent state (All users, all posts): use it but not all the data, just the relevant slices
 - Client State (is user authenticated, filters set by the user): yup, its central storage is perfect for this case
+
+### Action creators
+Useful for async code
