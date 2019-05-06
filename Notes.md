@@ -139,7 +139,7 @@ redux can only manage one reducer).
 
 ### Middleware
 We can add Middleware between Actions and Reducers and connect it to the store.
-They are useful to execute async code.
+They are useful to execute async code. We use here redux-thunk.
 
 ### When sould we use Redux / action dispatching ?
 Depends on the size of the application and the complexity of the state.

@@ -1,34 +1,39 @@
-import React, { Component } from 'react';
-import Layout from './hoc/Layout/Layout';
-import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
-import Checkout from './containers/Checkout/Checkout';
-import Orders from './containers/Orders/Orders';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import React, { Component } from 'react'
+import Layout from './hoc/Layout/Layout'
+import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
+import Checkout from './containers/Checkout/Checkout'
+import Orders from './containers/Orders/Orders'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import thunk from 'redux-thunk'
 
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducer from './store/reducer';
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import burgerBuilderReducer from './store/reducers/burgerBuilder'
 
-const store = createStore(reducer);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const store = createStore(
+  burgerBuilderReducer,
+  composeEnhancers(applyMiddleware(thunk))
+)
 class App extends Component {
-
-  render() {
+  render () {
     return (
       <Provider store={store}>
         <BrowserRouter>
           <div>
             <Layout>
               <Switch>
-                <Route path="/checkout" component={Checkout}></Route>
-                <Route path="/orders" component={Orders}></Route>
-                <Route path="/" component={BurgerBuilder}></Route>
+                <Route path='/checkout' component={Checkout} />
+                <Route path='/orders' component={Orders} />
+                <Route path='/' component={BurgerBuilder} />
               </Switch>
             </Layout>
           </div>
         </BrowserRouter>
       </Provider>
-    );
+    )
   }
 }
 
-export default App;
+export default App
