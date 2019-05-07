@@ -11,7 +11,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 
 import { connect } from 'react-redux'
 
-import * as burgerBuilderActions from '../../store/actions/index'
+import * as actions from '../../store/actions/index'
 
 class BurgerBuilder extends Component {
   state = {
@@ -36,6 +36,7 @@ class BurgerBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
+    this.props.onInitPurchase();
     this.props.history.push('/checkout')
   }
 
@@ -97,20 +98,21 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
   return {
-    ingr: state.ingredients,
-    totalPr: state.totalPrice,
-    error: state.error
+    ingr: state.burgerBuilder.ingredients,
+    totalPr: state.burgerBuilder.totalPrice,
+    error: state.burgerBuilder.error
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     onIngredientAdded: ingredientType =>
-      dispatch(burgerBuilderActions.addIngredient(ingredientType)),
+      dispatch(actions.addIngredient(ingredientType)),
+    onInitPurchase: () => dispatch(actions.purchaseInit()),
     onIngredientRemoved: ingredientType =>
-      dispatch(burgerBuilderActions.removeIngredient(ingredientType)),
+      dispatch(actions.removeIngredient(ingredientType)),
       onInitIngredients: () =>
-        dispatch(burgerBuilderActions.initIngredients())
+        dispatch(actions.initIngredients())
   }
 }
 

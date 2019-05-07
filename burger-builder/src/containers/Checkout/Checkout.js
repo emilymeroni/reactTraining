@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
 
 import { connect } from 'react-redux';
@@ -8,34 +8,44 @@ import { connect } from 'react-redux';
 class Checkout extends Component {
 
   checkoutCancelledHandler = () => {
-    this.props.history.goBack();
+    this.props.history.goBack()
   }
 
   checkoutContinuedHandler = () => {
-    this.props.history.replace('/checkout/contact-data');
+    this.props.history.replace('/checkout/contact-data')
   }
 
-  render() {
-    return (
-      <div>
-        <CheckoutSummary
-          ingredients={this.props.ings}
-          checkoutContinued={this.checkoutContinuedHandler}
-          checkoutCancelled={this.checkoutCancelledHandler} />
-          <Route 
-          path={this.props.match.path + '/contact-data'} 
-          component={ContactData}
+  render () {
+    let summary = <Redirect to='/' />
+    if (this.props.ings !== null) {
+
+      const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
+
+      summary = (
+        <div>
+          {purchasedRedirect}
+          <CheckoutSummary
+            ingredients={this.props.ings}
+            checkoutContinued={this.checkoutContinuedHandler}
+            checkoutCancelled={this.checkoutCancelledHandler}
           />
-      </div>
-    );
+          <Route
+            path={this.props.match.path + '/contact-data'}
+            component={ContactData}
+          />
+        </div>
+      )
+    }
+    return summary;
   }
 }
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingredients,
-    price: state.totalPrice
+    ings: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.totalPrice,
+    purchased: state.order.purchased
   }
 }
 
-export default connect(mapStateToProps)(Checkout);
+export default connect(mapStateToProps)(Checkout)
