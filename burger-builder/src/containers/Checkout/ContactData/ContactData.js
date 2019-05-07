@@ -148,19 +148,19 @@ class ContactData extends Component {
   }
 
   updateFormValidity = () => {
-    const elementsValidity = []
+    const elementsValidity = [];
 
     for (const key in this.state.orderForm) {
-      elementsValidity.push(this.state.orderForm[key].valid)
+      elementsValidity.push(this.state.orderForm[key].valid);
     }
 
     for (let index = 0; index < elementsValidity.length; index++) {
       if (elementsValidity[index] === false) {
-        return false
+        return false;
       }
     }
 
-    return true
+    return true;
   }
 
   render () {

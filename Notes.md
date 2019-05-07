@@ -153,3 +153,9 @@ Useful for async code.
 
 ### Reducers
 They are pure, input in input out. They are a core redux comncept to update the State. Better to put the data transforming logic as opposite to action creators.
+
+## Authentication in SPA
+Authentication data is sent to the Server to be validated as the logic must be handled there.
+The Server sends something back which is usually a session but in SPA it is a Token, which is a JS
+Object that needs to be stored on the client (such as local storage). The token can always be verified
+by the server to check if it was created from the server.
