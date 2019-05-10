@@ -6,44 +6,45 @@ import Orders from './containers/Orders/Orders'
 import Auth from './containers/Auth/Auth'
 import Logout from './containers/Auth/Logout/Logout'
 
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import thunk from 'redux-thunk'
+import { BrowserRouter, Switch, Route, withRouter } from 'react-router-dom'
 
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
-import burgerBuilderReducer from './store/reducers/burgerBuilder'
-import orderReducer from './store/reducers/order'
-import authReducer from './store/reducers/auth'
+import * as actions from './store/actions'
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+import { connect } from 'react-redux'
 
-const rootReducer = combineReducers({
-  burgerBuilder: burgerBuilderReducer,
-  order: orderReducer,
-  auth: authReducer
-})
-
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
 class App extends Component {
+  componentDidMount () {
+    this.props.onTryAutoSignup()
+  }
+
   render () {
     return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <div>
-            <Layout>
-              <Switch>
-                <Route path='/checkout' component={Checkout} />
-                <Route path='/orders' component={Orders} />
-                <Route path='/auth' component={Auth} />
-                <Route path='/logout' component={Logout} />
-                <Route path='/' component={BurgerBuilder} />
-              </Switch>
-            </Layout>
-          </div>
-        </BrowserRouter>
-      </Provider>
+      <BrowserRouter>
+        <div>
+          <Layout>
+            <Switch>
+              <Route path='/checkout' component={Checkout} />
+              <Route path='/orders' component={Orders} />
+              <Route path='/auth' component={Auth} />
+              <Route path='/logout' component={Logout} />
+              <Route path='/' component={BurgerBuilder} />
+            </Switch>
+          </Layout>
+        </div>
+      </BrowserRouter>
     )
   }
 }
 
-export default App
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignup: () => dispatch(actions.authCheckState())
+  }
+}
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(App)
+)
