@@ -71,6 +71,7 @@ export const fetchOrders = (token) => {
       .then(res => {
         const fetchedOrders = []
         for (const key in res.data) {
+          console.log(res.data);
           fetchedOrders.push({
             ...res.data[key],
             id: key
