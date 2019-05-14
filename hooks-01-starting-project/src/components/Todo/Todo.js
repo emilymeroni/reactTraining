@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useReducer, useRef } from 'react'
+import React, { useState, useEffect, useReducer, useRef, useMemo } from 'react'
 import axios from 'axios'
+
+import List from './List'
 
 const todo = props => {
   // Returns an array with two elements:
   // - the current state
   // - a function to manipulate the state
   // useState cannot be used in any for of nesting, only in the root level
-  // const [todoName, setTodoName] = useState('')
+  const [inputIsValid, setInputIsValid] = useState(false)
 
-  const todoInputRef = useRef();
+  const todoInputRef = useRef()
 
   const todoListReducer = (state, action) => {
     switch (action.type) {
@@ -47,7 +49,7 @@ const todo = props => {
   }, [])
 
   const todoAddHandler = () => {
-    const todoName = todoInputRef.current.value;
+    const todoName = todoInputRef.current.value
 
     axios
       .post('https://todo-f745d.firebaseio.com/todos.json', { name: todoName })
@@ -61,7 +63,7 @@ const todo = props => {
       })
   }
 
-  const todoRemoveHandler = (id) => {
+  const todoRemoveHandler = id => {
     axios
       .delete(`https://todo-f745d.firebaseio.com/todos/${id}.json`)
       .then(res => {
@@ -73,21 +75,32 @@ const todo = props => {
       })
   }
 
+  const inputValidationHandler = event => {
+    if (event.target.value.trim() === '') {
+      setInputIsValid(false)
+    } else {
+      setInputIsValid(true)
+    }
+  }
+
   return (
     <React.Fragment>
       <input
         type='text'
         placeholder='Todo'
         ref={todoInputRef}
+        onChange={inputValidationHandler}
+        style={{ backgroundColor: inputIsValid ? 'transparent' : 'red' }}
       />
       <button type='button' onClick={todoAddHandler}>
         Add
       </button>
-      <ul>
-        {todoList.map(todo => (
-          <li key={todo.id} onClick={todoRemoveHandler.bind(this, todo.id)}>{todo.name}</li>
-        ))}
-      </ul>
+      {useMemo(
+        () => (
+          <List items={todoList} clicked={todoRemoveHandler} />
+        ),
+        [todoList] // list of parameters to listen to recalculate the value passed as first argument
+      )}
     </React.Fragment>
   )
 }
