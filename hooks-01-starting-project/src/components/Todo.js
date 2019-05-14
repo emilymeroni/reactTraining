@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react'
+import React, { useState, useEffect, useReducer, useRef } from 'react'
 import axios from 'axios'
 
 const todo = props => {
@@ -6,7 +6,9 @@ const todo = props => {
   // - the current state
   // - a function to manipulate the state
   // useState cannot be used in any for of nesting, only in the root level
-  const [todoName, setTodoName] = useState('')
+  // const [todoName, setTodoName] = useState('')
+
+  const todoInputRef = useRef();
 
   const todoListReducer = (state, action) => {
     switch (action.type) {
@@ -44,11 +46,9 @@ const todo = props => {
     }
   }, [])
 
-  const inputChangeHandler = event => {
-    setTodoName(event.target.value)
-  }
-
   const todoAddHandler = () => {
+    const todoName = todoInputRef.current.value;
+
     axios
       .post('https://todo-f745d.firebaseio.com/todos.json', { name: todoName })
       .then(res => {
@@ -78,8 +78,7 @@ const todo = props => {
       <input
         type='text'
         placeholder='Todo'
-        onChange={inputChangeHandler}
-        value={todoName}
+        ref={todoInputRef}
       />
       <button type='button' onClick={todoAddHandler}>
         Add
