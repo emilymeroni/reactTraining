@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useReducer, useRef, useMemo } from 'react'
+import React, { useEffect, useReducer, useMemo } from 'react'
+import { useFormInput } from '../../hooks/forms'
 import axios from 'axios'
 
 import List from './List'
@@ -8,9 +9,8 @@ const todo = props => {
   // - the current state
   // - a function to manipulate the state
   // useState cannot be used in any for of nesting, only in the root level
-  const [inputIsValid, setInputIsValid] = useState(false)
 
-  const todoInputRef = useRef()
+  const todoInput = useFormInput()
 
   const todoListReducer = (state, action) => {
     switch (action.type) {
@@ -49,7 +49,7 @@ const todo = props => {
   }, [])
 
   const todoAddHandler = () => {
-    const todoName = todoInputRef.current.value
+    const todoName = todoInput.value
 
     axios
       .post('https://todo-f745d.firebaseio.com/todos.json', { name: todoName })
@@ -75,22 +75,16 @@ const todo = props => {
       })
   }
 
-  const inputValidationHandler = event => {
-    if (event.target.value.trim() === '') {
-      setInputIsValid(false)
-    } else {
-      setInputIsValid(true)
-    }
-  }
-
   return (
     <React.Fragment>
       <input
         type='text'
         placeholder='Todo'
-        ref={todoInputRef}
-        onChange={inputValidationHandler}
-        style={{ backgroundColor: inputIsValid ? 'transparent' : 'red' }}
+        onChange={todoInput.onChange}
+        value={todoInput.value}
+        style={{
+          backgroundColor: todoInput.validity === true ? 'transparent' : 'red'
+        }}
       />
       <button type='button' onClick={todoAddHandler}>
         Add
